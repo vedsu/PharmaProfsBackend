@@ -89,7 +89,7 @@ class Speaker():
                                 "webinar": topic,
                                 "date": webinar.get("date"),
                                 "time": webinar.get("time"),
-                                "timezone" : timezone,
+                                "timeZone" : timezone,
                                 "duration": webinar.get("duration"),
                                 "urlLive": urlLive,
                                 "website": webinar.get("website")
