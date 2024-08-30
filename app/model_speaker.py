@@ -91,6 +91,7 @@ class Speaker():
                                 "time": webinar.get("time"),
                                 "timeZone" : timezone,
                                 "duration": webinar.get("duration"),
+                                "sessionLive" :webinar.get("sessionLive"),
                                 "urlLive": urlLive,
                                 "website": webinar.get("website")
                             
