@@ -1,3 +1,4 @@
+
 # Speaker Component
 from app import mongo
 import pytz
@@ -8,7 +9,7 @@ class Speaker():
     @staticmethod
     def data_speaker(s_id):
         
-        speaker_info = None  
+         
         try:
             speaker_data = list(mongo.db.speaker_data.find({"id":s_id}))
             speaker = speaker_data[0]
@@ -24,12 +25,13 @@ class Speaker():
                 "history": speaker.get("history")
             }
             
-            speaker_info = speaker_dict
-        except Exception as e:
-            speaker_info = None 
-            
+            return speaker_dict
         
-        return speaker_info
+        except Exception as e:
+            
+            return str(e)
+        
+    
     
     
     @staticmethod
@@ -51,19 +53,27 @@ class Speaker():
                 "photo": speaker.get("photo")
                 }
                 speaker_list.append(speaker_dict)
+       
         except Exception as e:
-            speaker_list =[ ]
+            speaker_list =[ str(e)]
 
         return speaker_list
     
     @staticmethod
     def speakerdashboard_data(email):
+        
         dashboard_list = [] 
+        history = []
+        speaker_data = None
         try:
-            speaker_data = list(mongo.db.speaker_data.find({"email":email}))
-            speaker = speaker_data[0]
-            history =  speaker.get("history")
-            name = speaker.get("name")
+            # return dashboard_list,history
+            projections = {"_id":0}
+            speaker_data = list(mongo.db.speaker_data.find({"email":email},projections))
+            if speaker_data:
+                speaker = speaker_data[0]
+                history =  speaker.get("history")
+                name = speaker.get("name")
+            
             for topic in history:
                 
                 webinar_data  = list(mongo.db.webinar_data.find({"topic":topic}))
@@ -76,16 +86,11 @@ class Speaker():
                             date =  str(webinar.get("date_time"))
                             timezone = webinar.get("timeZone")
                             urlreturn = handle_timezone(date, timezone)
-                            
+                            urlLive = " "
                             if urlreturn is True:
                                 urlLive = webinar.get("urlLive")
                             
-                            else:
-                                urlLive = ""
-                            
-                            
                             webinar_dict ={
-                                
                                 "webinar": topic,
                                 "date": webinar.get("date"),
                                 "time": webinar.get("time"),
@@ -96,13 +101,15 @@ class Speaker():
                                 "website": webinar.get("website")
                             
                             }
-
+                            
                             dashboard_list.append(webinar_dict)
-
+                                
         except Exception as e:
             dashboard_list = [str(e)]
 
         return dashboard_list,history
+
+
 
 
 def handle_timezone(webinar_datetime_str,timeZone):
