@@ -11,7 +11,8 @@ class Webinar():
         
         try: 
             
-            webinar_data = list(mongo.db.webinar_data.find({"$and":[{"id":w_id}, {"website":"PHARMAPROFS"}]}))
+            # webinar_data = list(mongo.db.webinar_data.find({"$and":[{"id":w_id}, {"website":"PHARMAPROFS"}]}))
+            webinar_data = list(mongo.db.webinar_data.find({"$and":[{"webinar_url":w_id}, {"website":"PHARMAPROFS"}]})) 
             # webinar_data = list(mongo.db.webinar_data.find({}))
             # return webinar_data
             if webinar_data:
