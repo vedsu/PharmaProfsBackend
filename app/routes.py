@@ -156,7 +156,7 @@ def subscriber():
 @app.route('/unsubscribe', methods = ['POST'])
 def unsubscriber():
     if request.method == 'POST':
-        unsubscriber = request.json.get("Unsubscriber")
+        unsubscriber = request.json.get("email")
         response = Utility.unsubscribe_list(unsubscriber)
         return response
 
